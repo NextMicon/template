@@ -1,1 +1,16 @@
-{}
+{
+  "include": [
+    "cpu/cpu.cpp",
+    "cpu/cpu.hpp",
+    "cpu/custom_ops.S",
+    "cpu/picorv32.v",
+    "cpu/sections.lds",
+    "cpu/start.S",
+    "fpga/tristate.v",
+    "fpga/fpga.pcf",
+    "simulation/serial.sh",
+    "simulation/spiflash.v",
+    "simulation/testbench.v",
+    "Makefile"
+  ]
+}
