@@ -57,7 +57,7 @@ software: .build/software.objdump .build/software.nm .build/software.bin
 .build/simu_software.hex: .build/simu_software.bin
 	xxd $^ > $@
 .build/simu_flash.bin: .build/simu_software.bin
-	.template/simulation/zeropadding.sh $^ > $@
+	sh .template/simulation/zeropadding.sh $^ > $@
 .build/simu_flash.hex: .build/simu_flash.bin
 	xxd -c 1 -p $^ > $@
 .build/simu_testbench.vvp: .build/simu_flash.hex $(SIMU_HARD) $(HARDWARE)
@@ -67,7 +67,7 @@ software: .build/software.objdump .build/software.nm .build/software.bin
 			 -DDEBUG -DDEBUGNETS -DDEBUGREGS
 .build/simulation.vcd: .build/simu_testbench.vvp
 	vvp $^ > .build/simulation.log
-	.template/simulation/serial.sh .build/simulation.log .build/simu_serial.log
+	sh .template/simulation/serial.sh .build/simulation.log .build/simu_serial.log
 simu: .build/simulation.vcd .build/simu_software.objdump .build/simu_software.nm
 	gtkwave .build/simulation.vcd
 
