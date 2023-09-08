@@ -1,4 +1,5 @@
 {
+  "Simulation": "https://raw.githubusercontent.com/Next-MICON/template/main/Simulation/template.json",
   "TinyFPGA_BX": "https://raw.githubusercontent.com/Next-MICON/template/main/TinyFPGA_BX/template.json",
   "TangNano9k": "https://raw.githubusercontent.com/Next-MICON/template/main/TangNano9k/template.json"
 }
