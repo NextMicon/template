@@ -1,0 +1,26 @@
+{
+  "include": [
+    "micon/hardware.v",
+    "micon/firmware.cpp",
+    "micon/firmware.hpp",
+    "micon.mcl",
+    "README.md",
+    "simulation/main.cpp",
+    ".template/fpga/tristate.v",
+    ".template/fpga/fpga.pcf",
+    ".template/simulation/zeropadding.sh",
+    ".template/simulation/spiflash.v",
+    ".template/simulation/serial.sh",
+    ".template/simulation/testbench.v",
+    ".template/cpu/cpu.cpp",
+    ".template/cpu/cpu.hpp",
+    ".template/cpu/picorv32.v",
+    ".template/cpu/start.S",
+    ".template/cpu/custom_ops.S",
+    ".template/cpu/sections.lds",
+    ".clang-format",
+    ".vscode/c_cpp_properties.json",
+    "Makefile",
+    "software/main.cpp"
+  ]
+}
