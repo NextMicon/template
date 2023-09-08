@@ -11,6 +11,7 @@
     "simulation/serial.sh",
     "simulation/spiflash.v",
     "simulation/testbench.v",
+    "simulation/zeropadding.sh",
     "Makefile"
   ]
 }
