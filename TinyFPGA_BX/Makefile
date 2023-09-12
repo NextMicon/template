@@ -11,6 +11,11 @@ LINKER    = .template/cpu/sections.lds
 upload: hardware software
 	tinyprog -p .build/hardware.bin -u .build/software.bin
 
+dev:
+	sudo apt update
+	sudo apt install gcc-riscv64-unknown-elf yosys nextpnr-ice40 iverilog gtkwave python3
+	pip install 
+
 install: $(MICON)
 	micon install -m $^
 
