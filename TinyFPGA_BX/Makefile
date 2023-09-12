@@ -1,3 +1,4 @@
+MICON     = micon.mcl
 CROSS     = riscv64-unknown-elf-
 SOFTWARE  = .template/cpu/*.cpp .packages/*/*.cpp micon/*.cpp software/*.cpp
 HARDWARE  = .template/fpga/*.v .template/cpu/*.v .packages/*/*.v micon/*.v
@@ -10,16 +11,16 @@ LINKER    = .template/cpu/sections.lds
 upload: hardware software
 	tinyprog -p .build/hardware.bin -u .build/software.bin
 
-install:
-	micon install -m micon.mcl
+install: $(MICON)
+	micon install -m $^
 
 gen: micon/hardware.v micon/firmware.hpp micon/firmware.cpp
-	micon read -m micon.mcl
-micon/hardware.v: micon.mcl
+	micon read -m $(MICON)
+micon/hardware.v: $(MICON)
 	micon gen-hard -t $@ -m $^ -o $@
-micon/firmware.hpp: micon.mcl
+micon/firmware.hpp: $(MICON)
 	micon gen-firm -t $@ -m $^ -o $@
-micon/firmware.cpp: micon.mcl
+micon/firmware.cpp: $(MICON)
 	micon gen-firm -t $@ -m $^ -o $@
 
 hardware: .build/hardware.bin
@@ -42,6 +43,8 @@ software: .build/software.objdump .build/software.nm .build/software.bin
 	$(CROSS)nm --demangle --numeric-sort $^ > $@
 .build/software.bin: .build/software.elf
 	$(CROSS)objcopy -O binary $^ /dev/stdout > $@
+
+simu: wave
 
 .build/simu_software.elf: $(START) $(SIMU_SOFT)
 	$(CROSS)g++ -march=rv32imc -mabi=ilp32 -nostartfiles \
@@ -68,7 +71,7 @@ software: .build/software.objdump .build/software.nm .build/software.bin
 .build/simulation.vcd: .build/simu_testbench.vvp
 	vvp $^ > .build/simulation.log
 	sh .template/simulation/serial.sh .build/simulation.log .build/simu_serial.log
-simu: .build/simulation.vcd .build/simu_software.objdump .build/simu_software.nm
+wave: .build/simulation.vcd .build/simu_software.objdump .build/simu_software.nm
 	gtkwave .build/simulation.vcd
 
-.PHONY: upload install gen hardware software simu
+.PHONY: upload install gen hardware software simu wave
