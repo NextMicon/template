@@ -16,19 +16,19 @@ dev:
 	pip install 
 
 init:
-	mkdir -p .build
+	mkdir -p .build micon
 
 install: $(MICON)
-	micon install -m $^
+	nm-cli install -m $^
 
 gen: micon/hardware.v micon/firmware.hpp micon/firmware.cpp
-	micon read -m $(MICON)
+	nm-cli read -m $(MICON)
 micon/hardware.v: $(MICON)
-	micon gen-hard -t .template/$@ -m $^ -o $@
+	nm-cli gen-hard -t .template/$@ -m $^ -o $@
 micon/firmware.hpp: $(MICON)
-	micon gen-firm -t .template/$@ -m $^ -o $@
+	nm-cli gen-firm -t .template/$@ -m $^ -o $@
 micon/firmware.cpp: $(MICON)
-	micon gen-firm -t .template/$@ -m $^ -o $@
+	nm-cli gen-firm -t .template/$@ -m $^ -o $@
 
 hardware: .build/hardware.bin
 .build/hardware.json: $(HARDWARE)
