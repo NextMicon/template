@@ -1,8 +1,5 @@
 {
   "include": [
-    "micon/hardware.v",
-    "micon/firmware.cpp",
-    "micon/firmware.hpp",
     "micon.mcl",
     "README.md",
     "simulation/main.cpp",
@@ -18,6 +15,9 @@
     ".template/cpu/start.S",
     ".template/cpu/custom_ops.S",
     ".template/cpu/sections.lds",
+    ".template/micon/hardware.v",
+    ".template/micon/firmware.cpp",
+    ".template/micon/firmware.hpp",
     ".clang-format",
     ".vscode/c_cpp_properties.json",
     "Makefile",

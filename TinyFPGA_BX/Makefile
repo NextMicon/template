@@ -8,13 +8,15 @@ PCF       = .template/fpga/*.pcf
 START     = .template/cpu/start.S
 LINKER    = .template/cpu/sections.lds
 
-upload: hardware software
-	tinyprog -p .build/hardware.bin -u .build/software.bin
+all: hardware software
 
 dev:
 	sudo apt update
 	sudo apt install gcc-riscv64-unknown-elf yosys nextpnr-ice40 iverilog gtkwave python3
 	pip install 
+
+init:
+	mkdir -p .build
 
 install: $(MICON)
 	micon install -m $^
@@ -22,11 +24,11 @@ install: $(MICON)
 gen: micon/hardware.v micon/firmware.hpp micon/firmware.cpp
 	micon read -m $(MICON)
 micon/hardware.v: $(MICON)
-	micon gen-hard -t $@ -m $^ -o $@
+	micon gen-hard -t .template/$@ -m $^ -o $@
 micon/firmware.hpp: $(MICON)
-	micon gen-firm -t $@ -m $^ -o $@
+	micon gen-firm -t .template/$@ -m $^ -o $@
 micon/firmware.cpp: $(MICON)
-	micon gen-firm -t $@ -m $^ -o $@
+	micon gen-firm -t .template/$@ -m $^ -o $@
 
 hardware: .build/hardware.bin
 .build/hardware.json: $(HARDWARE)
@@ -48,6 +50,9 @@ software: .build/software.objdump .build/software.nm .build/software.bin
 	$(CROSS)nm --demangle --numeric-sort $^ > $@
 .build/software.bin: .build/software.elf
 	$(CROSS)objcopy -O binary $^ /dev/stdout > $@
+
+upload: hardware software
+	tinyprog -p .build/hardware.bin -u .build/software.bin
 
 simu: wave
 
@@ -79,4 +84,4 @@ simu: wave
 wave: .build/simulation.vcd .build/simu_software.objdump .build/simu_software.nm
 	gtkwave .build/simulation.vcd
 
-.PHONY: upload install gen hardware software simu wave
+.PHONY: all dev init install gen hardware software upload simu wave
